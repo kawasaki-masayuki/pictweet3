@@ -862,7 +862,7 @@ div.contents.row div.content_post {
   margin: 20px 0;
   padding: 30px;
   position: relative;
-  height: 200px;
+  height: 150px;
   color: #fff;
   background-size: cover;
   background-position: center center;
@@ -1056,4 +1056,16 @@ footer p {
 
 .search-form .search-btn {
   width: 10%;
+}
+
+.tweet_title span {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.tweet_text {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  padding: 20px;
 }
