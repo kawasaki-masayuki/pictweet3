@@ -3,17 +3,19 @@
     <span>【<%= @tweet.title %>】</span>
   </div>
   <div class="content_post" style="background-image: url(<%= @tweet.image %>);background-size: cover; height: 300px;">
-    <div class="more">
-      <span><%= image_tag 'arrow_top.png' %></span>
-      <ul class="more_list">
-        <li>
-          <%= link_to '編集', edit_tweet_path(@tweet.id), method: :get %>
-        </li>
-        <li>
-          <%= link_to '削除', tweet_path(@tweet.id), method: :delete %>
-        </li>
-      </ul>
-    </div>
+    <% if user_signed_in? && current_user.id == @tweet.user_id %>
+      <div class="more">
+        <span><%= image_tag 'arrow_top.png' %></span>
+        <ul class="more_list">
+          <li>
+            <%= link_to '編集', edit_tweet_path(@tweet.id), method: :get %>
+          </li>
+          <li>
+            <%= link_to '削除', tweet_path(@tweet.id), method: :delete %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
     <p><%#= @tweet.title %></p>
   </div>
   <div class="tweet_text">
