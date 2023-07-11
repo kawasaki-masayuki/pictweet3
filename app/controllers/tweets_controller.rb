@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:edit, :show]
-  before_action :move_to_index, except: [:index, :show]
+  before_action :move_to_index, except: [:index, :show, :search]
   
   def index
     @tweets = Tweet.includes(:user).order("created_at DESC")
@@ -11,7 +11,13 @@ class TweetsController < ApplicationController
   end
 
   def create
-    Tweet.create(tweet_params)
+    @tweet = Tweet.new(tweet_params)
+    #バリデーションに引っかからず保存されれば、「投稿完了」の画面が呼び出される
+    if @tweet.save
+    else
+      #バリデーションに引っかかり保存されなければ、「新規投稿」の画面を呼び出す
+      render 'new'
+    end
   end
 
   def destroy
@@ -23,11 +29,22 @@ class TweetsController < ApplicationController
   end
 
   def update
-    tweet = Tweet.find(params[:id])
-    tweet.update(tweet_params)
+    @tweet = Tweet.find(params[:id])
+    #バリデーションに引っかからず更新されれば、「更新完了」の画面が呼び出される
+    if @tweet.update(tweet_params)
+    else
+      #バリデーションに引っかかり保存されなければ、「編集」の画面が呼び出される
+      render 'edit'
+    end
   end
 
   def show
+    @comment = Comment.new
+    @comments = @tweet.comments.includes(:user)
+  end
+
+  def search
+    @tweets = Tweet.search(params[:keyword])
   end
 
   private
